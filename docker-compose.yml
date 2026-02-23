@@ -1,0 +1,67 @@
+services:
+  # Основной контейнер Laravel Octane + RoadRunner
+  laravel-roadrunner:
+    build:
+      context: .
+      dockerfile: docker/php.Dockerfile
+      target: php-base
+    container_name: laravel-roadrunner
+    restart: unless-stopped
+    working_dir: /var/www/laravel
+    environment:
+      XDEBUG_MODE: ${XDEBUG_MODE}
+      XDEBUG_START: ${XDEBUG_START}
+      XDEBUG_CLIENT_HOST: ${XDEBUG_CLIENT_HOST}
+    networks:
+      - laravel-roadrunner-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:2114/health?plugin=http"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+
+  # База данных PostgreSQL
+  laravel-postgres-rr:
+    image: postgres:18.2-alpine
+    container_name: laravel-postgres-rr
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - laravel-roadrunner-network
+    healthcheck:
+      test: ["CMD", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+  # Хранилище данных Redis
+  laravel-redis-rr:
+    image: redis:8.6-alpine
+    container_name: laravel-redis-rr
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis-data:/data
+    networks:
+      - laravel-roadrunner-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+volumes:
+  postgres-data:
+  redis-data:
+
+networks:
+  laravel-roadrunner-network:
+    driver: bridge
