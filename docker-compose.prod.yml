@@ -3,13 +3,12 @@ services:
   laravel-roadrunner:
     image: "${CI_REGISTRY_IMAGE}/app:${IMAGE_TAG}"
     restart: unless-stopped
-    env_file:
-      - .env
     ports:
       - "8000:8000"
     environment:
+      APP_BASE_PATH: /var/www/laravel
       RR_HTTP_NUM_WORKERS: ${RR_HTTP_NUM_WORKERS:-8}
-      RR_LOG_LEVEL: "warn"
+      RR_LOG_LEVEL: ${RR_LOG_LEVEL:-warn}
 
   # Queue Worker — обработка очередей Laravel
   laravel-queue-rr:
@@ -25,6 +24,8 @@ services:
     depends_on:
       laravel-redis-rr:
         condition: service_healthy
+    environment:
+      APP_BASE_PATH: /var/www/laravel
     healthcheck:
       test: ["CMD-SHELL", "php artisan queue:monitor default --max=100 || exit 0"]
       interval: 30s
@@ -38,8 +39,8 @@ services:
     container_name: laravel-scheduler-rr
     restart: unless-stopped
     working_dir: /var/www/laravel
-    env_file:
-      - .env
+    environment:
+      APP_BASE_PATH: /var/www/laravel
     command: ["sh", "-c", "while true; do php artisan schedule:run --verbose --no-interaction; sleep 60; done"]
     networks:
       - laravel-roadrunner-network
@@ -52,8 +53,8 @@ services:
     image: "${CI_REGISTRY_IMAGE}/app:${IMAGE_TAG}"
     restart: "no"
     working_dir: /var/www/laravel
-    env_file:
-      - .env
+    environment:
+      APP_BASE_PATH: /var/www/laravel
     command: ["sh", "-lc", "php artisan migrate --force"]
     depends_on:
       laravel-postgres-rr:
