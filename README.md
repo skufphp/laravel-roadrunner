@@ -29,14 +29,14 @@ Boilerplate для быстрого развертывания **Laravel Octane*
 
 ## Ключевые отличия от Nginx + PHP-FPM
 
-| Аспект | Nginx + PHP-FPM | RoadRunner (Octane) |
-|--------|----------------|---------------------|
-| Контейнеры | 2 (Nginx + PHP-FPM) | 1 (RoadRunner) |
-| Протокол | Unix socket / FastCGI | Встроенный HTTP-сервер |
-| Модель | Процесс на запрос | Persistent workers |
-| Производительность | Хорошая | Высокая (нет bootstrap на каждый запрос) |
-| Статика | Nginx | RoadRunner static plugin |
-| Перезагрузка кода | Автоматическая | `make rr-reload` или `rr reset` |
+| Аспект             | Nginx + PHP-FPM       | RoadRunner (Octane)                      |
+|--------------------|-----------------------|------------------------------------------|
+| Контейнеры         | 2 (Nginx + PHP-FPM)   | 1 (RoadRunner)                           |
+| Протокол           | Unix socket / FastCGI | Встроенный HTTP-сервер                   |
+| Модель             | Процесс на запрос     | Persistent workers                       |
+| Производительность | Хорошая               | Высокая (нет bootstrap на каждый запрос) |
+| Статика            | Nginx                 | RoadRunner static plugin                 |
+| Перезагрузка кода  | Автоматическая        | `make rr-reload` или `rr reset`          |
 
 ## Структура проекта (файлы boilerplate)
 
@@ -80,15 +80,15 @@ make setup
 
 ## Основные команды
 
-| Команда | Описание |
-|---------|----------|
-| `make setup` | Полная инициализация проекта |
-| `make up` | Запустить контейнеры (dev) |
-| `make down` | Остановить контейнеры |
-| `make logs-app` | Логи RoadRunner |
-| `make shell` | Войти в контейнер |
-| `make rr-reload` | Перезагрузить воркеры RoadRunner |
-| `make rr-workers` | Статус воркеров |
-| `make artisan CMD="..."` | Выполнить artisan-команду |
-| `make test-php` | Запустить тесты |
-| `make help` | Полный список команд |
+| Команда                  | Описание                         |
+|--------------------------|----------------------------------|
+| `make setup`             | Полная инициализация проекта     |
+| `make up`                | Запустить контейнеры (dev)       |
+| `make down`              | Остановить контейнеры            |
+| `make logs-app`          | Логи RoadRunner                  |
+| `make shell`             | Войти в контейнер                |
+| `make rr-reload`         | Перезагрузить воркеры RoadRunner |
+| `make rr-workers`        | Статус воркеров                  |
+| `make artisan CMD="..."` | Выполнить artisan-команду        |
+| `make test-php`          | Запустить тесты                  |
+| `make help`              | Полный список команд             |
