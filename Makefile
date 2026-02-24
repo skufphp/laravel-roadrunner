@@ -1,7 +1,19 @@
 # ==========================================
 # Laravel Octane + RoadRunner (Boilerplate)
 # ==========================================
-.PHONY: help up down restart build rebuild logs status shell shell-postgres clean setup artisan migrate
+.PHONY: \
+	help check-files \
+	up up-prod down restart build rebuild \
+	logs logs-app logs-postgres logs-pgadmin logs-node logs-redis \
+	status \
+	shell shell-node shell-postgres shell-redis \
+	setup install-deps \
+	composer-install composer-update composer-require \
+	npm-install npm-dev npm-build \
+	artisan composer migrate rollback fresh tinker test-php \
+	rr-reload rr-workers \
+	permissions info validate \
+	clean clean-all dev-reset
 
 # Цвета для вывода
 YELLOW=\033[0;33m

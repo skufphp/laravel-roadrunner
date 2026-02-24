@@ -9,13 +9,15 @@ services:
     restart: unless-stopped
     working_dir: /var/www/laravel
     environment:
-      XDEBUG_MODE: ${XDEBUG_MODE}
-      XDEBUG_START: ${XDEBUG_START}
-      XDEBUG_CLIENT_HOST: ${XDEBUG_CLIENT_HOST}
+      environment:
+        XDEBUG_MODE: ${XDEBUG_MODE:-off}
+        XDEBUG_START: ${XDEBUG_START:-no}
+        XDEBUG_CLIENT_HOST: ${XDEBUG_CLIENT_HOST:-host.docker.internal}
+        APP_BASE_PATH: ${APP_BASE_PATH:-/var/www/laravel}
     networks:
       - laravel-roadrunner-network
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:2114/health?plugin=http"]
+      test: [ "CMD", "curl", "-f", "http://localhost:2114/health?plugin=http" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -35,7 +37,7 @@ services:
     networks:
       - laravel-roadrunner-network
     healthcheck:
-      test: ["CMD", "pg_isready"]
+      test: [ "CMD", "pg_isready" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -46,13 +48,13 @@ services:
     image: redis:8.6-alpine
     container_name: laravel-redis-rr
     restart: unless-stopped
-    command: ["redis-server", "--appendonly", "yes"]
+    command: [ "redis-server", "--appendonly", "yes" ]
     volumes:
       - redis-data:/data
     networks:
       - laravel-roadrunner-network
     healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
+      test: [ "CMD", "redis-cli", "ping" ]
       interval: 10s
       timeout: 5s
       retries: 5
