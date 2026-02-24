@@ -63,7 +63,7 @@ composer require laravel/octane
 php artisan octane:install --server=roadrunner
 ```
 
-Эта команда создаст файл `worker.php` в корне проекта — он необходим для работы RoadRunner.
+Эта команда устанавливает и настраивает Octane для RoadRunner. Файл воркера создаётся/используется внутри пакета Octane (`vendor/laravel/octane/bin/roadrunner-worker`), поэтому `worker.php` в корне проекта не требуется.
 
 ### 3. Копирование файлов boilerplate
 
@@ -116,6 +116,9 @@ APP_PORT=8000
 DB_FORWARD_PORT=5432
 REDIS_FORWARD_PORT=6379
 PGADMIN_PORT=8080
+
+# --- Base path to the application inside the container ---
+APP_BASE_PATH=/var/www/laravel
 
 # --- Xdebug Configuration ---
 XDEBUG_MODE=off

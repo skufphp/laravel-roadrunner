@@ -9,11 +9,10 @@ services:
     restart: unless-stopped
     working_dir: /var/www/laravel
     environment:
-      environment:
-        XDEBUG_MODE: ${XDEBUG_MODE:-off}
-        XDEBUG_START: ${XDEBUG_START:-no}
-        XDEBUG_CLIENT_HOST: ${XDEBUG_CLIENT_HOST:-host.docker.internal}
-        APP_BASE_PATH: ${APP_BASE_PATH:-/var/www/laravel}
+      XDEBUG_MODE: ${XDEBUG_MODE:-off}
+      XDEBUG_START: ${XDEBUG_START:-no}
+      XDEBUG_CLIENT_HOST: ${XDEBUG_CLIENT_HOST:-host.docker.internal}
+      #APP_BASE_PATH: ${APP_BASE_PATH:-/var/www/laravel}
     networks:
       - laravel-roadrunner-network
     healthcheck:
