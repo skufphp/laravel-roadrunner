@@ -133,10 +133,10 @@ RUN rm -f public/hot
 COPY --from=frontend-build /app/public/build /var/www/laravel/public/build
 
 # Удаляем dev-кеши, скопированные с хоста
-# Перегенерируем autoload и запускаем package:discover без второго полного composer install
+# Перегенерируем autoload и запускаем package:discover один раз
 RUN rm -rf bootstrap/cache/*.php \
     && rm -rf storage/framework/cache/data/* \
-    && composer dump-autoload --optimize --no-dev --classmap-authoritative \
+    && composer dump-autoload --optimize --no-dev --classmap-authoritative --no-scripts \
     && php artisan package:discover --ansi
 
 # Назначаем права и переключаемся на www-data
