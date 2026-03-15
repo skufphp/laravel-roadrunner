@@ -119,9 +119,6 @@ WORKDIR /var/www/laravel
 # Копируем php.ini для продакшена
 COPY docker/php/php.prod.ini /usr/local/etc/php/conf.d/local.ini
 
-# Явно копируем конфиг RoadRunner: если файла нет в git-контексте, build должен упасть сразу
-COPY .rr.yaml /var/www/laravel/.rr.yaml
-
 # Копируем composer-файлы отдельно для кеширования слоя vendor
 COPY composer.json composer.lock ./
 RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts --no-progress
@@ -138,6 +135,7 @@ COPY --from=frontend-build /app/public/build /var/www/laravel/public/build
 # Удаляем dev-кеши, скопированные с хоста
 # Перегенерируем autoload и запускаем package:discover без второго полного composer install
 RUN rm -rf bootstrap/cache/*.php \
+    && rm -rf storage/framework/cache/data/* \
     && composer dump-autoload --optimize --no-dev --classmap-authoritative \
     && php artisan package:discover --ansi
 
