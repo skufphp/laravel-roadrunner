@@ -6,6 +6,7 @@ services:
       dockerfile: docker/php.Dockerfile
       target: production
     image: laravel-roadrunner:latest
+    container_name: laravel-roadrunner
     pull_policy: never
     restart: unless-stopped
     environment:
@@ -34,6 +35,7 @@ services:
   # База данных PostgreSQL
   laravel-postgres-rr:
     image: postgres:18.2-alpine
+    container_name: laravel-postgres-rr
     restart: unless-stopped
     environment:
       POSTGRES_DB: ${DB_DATABASE}
@@ -53,6 +55,7 @@ services:
   # Хранилище данных Redis
   laravel-redis-rr:
     image: redis:8.6-alpine
+    container_name: laravel-redis-rr
     restart: unless-stopped
     command: [ "redis-server", "--appendonly", "yes" ]
     volumes:
@@ -69,6 +72,7 @@ services:
   # Queue Worker — обработка очередей Laravel
   laravel-queue-rr:
     image: laravel-roadrunner:latest
+    container_name: laravel-queue-rr
     pull_policy: never
     restart: unless-stopped
     environment:
@@ -93,6 +97,7 @@ services:
   # Scheduler — планировщик задач Laravel (cron)
   laravel-scheduler-rr:
     image: laravel-roadrunner:latest
+    container_name: laravel-scheduler-rr
     pull_policy: never
     restart: unless-stopped
     environment:
