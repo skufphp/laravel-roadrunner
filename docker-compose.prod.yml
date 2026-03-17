@@ -10,8 +10,6 @@ services:
     restart: unless-stopped
     working_dir: /var/www/laravel
     command: [ "rr", "serve", "-c", "/var/www/laravel/.rr.yaml" ]
-    networks:
-      - laravel-roadrunner-network
     depends_on:
       laravel-postgres-rr:
         condition: service_healthy
@@ -38,8 +36,6 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     volumes:
       - postgres-data:/var/lib/postgresql
-    networks:
-      - laravel-roadrunner-network
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -h 127.0.0.1 -p 5432 -U $$POSTGRES_USER -d $$POSTGRES_DB" ]
       interval: 10s
@@ -54,8 +50,6 @@ services:
     command: [ "redis-server", "--appendonly", "yes" ]
     volumes:
       - redis-data:/data
-    networks:
-      - laravel-roadrunner-network
     healthcheck:
       test: [ "CMD", "redis-cli", "ping" ]
       interval: 10s
@@ -70,8 +64,6 @@ services:
     restart: unless-stopped
     working_dir: /var/www/laravel
     command: [ "php", "artisan", "queue:work", "--sleep=3", "--tries=3", "--max-time=3600", "--memory=256", "--max-jobs=1000" ]
-    networks:
-      - laravel-roadrunner-network
     depends_on:
       laravel-postgres-rr:
         condition: service_healthy
@@ -91,8 +83,6 @@ services:
     restart: unless-stopped
     working_dir: /var/www/laravel
     command: [ "sh", "-c", "while true; do php artisan schedule:run --verbose --no-interaction; sleep 60; done" ]
-    networks:
-      - laravel-roadrunner-network
     depends_on:
       laravel-postgres-rr:
         condition: service_healthy
@@ -103,6 +93,3 @@ volumes:
   postgres-data:
   redis-data:
 
-networks:
-  laravel-roadrunner-network:
-    driver: bridge
