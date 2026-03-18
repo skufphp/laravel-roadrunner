@@ -231,6 +231,7 @@
                 padding: 0.75rem 1rem;
                 overflow-x: auto;
             }
+            .file-tree pre { margin: 0; padding: 0; font-family: inherit; font-size: inherit; white-space: pre; }
             .file-tree .dir { color: #706f6c; }
             .file-tree .comment { color: #a1a09a; }
 
@@ -470,7 +471,7 @@
                     <!-- File structure -->
                     <div class="section">
                         <div class="section-title">Структура проекта</div>
-                        <div class="file-tree">
+                        <div class="file-tree"><pre>
 <span class="dir">├── docker/</span>
 │   ├── php.Dockerfile          <span class="comment"># dev + production</span>
 │   └── php/
@@ -481,7 +482,7 @@
 <span class="dir">├── docker-compose.prod.yml</span>     <span class="comment"># production stack</span>
 <span class="dir">├── Makefile</span>                    <span class="comment"># команды управления</span>
 └── SETUP.md                    <span class="comment"># инструкция</span>
-                        </div>
+</pre></div>
                     </div>
 
                 </div>
