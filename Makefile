@@ -209,6 +209,11 @@ composer-update: ## Обновить зависимости через Composer
 composer-require: ## Установить пакет через Composer (make composer-require PACKAGE=vendor/package)
 	$(COMPOSE) exec $(APP_SERVICE) composer require $(PACKAGE)
 
+composer: ## Запустить команду composer (make composer CMD="install")
+	$(COMPOSE) exec $(APP_SERVICE) composer $(CMD)
+
+# --- Команды NPM ---
+
 npm-install: ## Установить NPM зависимости
 	$(COMPOSE) exec $(NODE_SERVICE) npm install
 
@@ -222,9 +227,6 @@ npm-build: ## Собрать фронтенд
 
 artisan: ## Запустить команду artisan (make artisan CMD="migrate")
 	$(COMPOSE) exec $(APP_SERVICE) php artisan $(CMD)
-
-composer: ## Запустить команду composer (make composer CMD="install")
-	$(COMPOSE) exec $(APP_SERVICE) composer $(CMD)
 
 migrate: ## Запустить миграции
 	$(COMPOSE) exec $(APP_SERVICE) php artisan migrate
@@ -240,6 +242,9 @@ tinker: ## Запустить Laravel Tinker
 
 test-php: ## Запустить тесты PHP (PHPUnit)
 	$(COMPOSE) exec $(APP_SERVICE) php artisan test
+
+test-coverage: ## Запустить тесты с покрытием кода
+	$(COMPOSE) exec $(APP_SERVICE) php artisan test --coverage
 
 # --- RoadRunner ---
 
